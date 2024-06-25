@@ -8,6 +8,8 @@ import io.systeme.test_task_kt.repository.ProductRepository
 import io.systeme.test_task_kt.repository.TaxRateRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 @Service
 @Transactional(readOnly = true)
@@ -30,7 +32,9 @@ class PricingService(
 
         val taxRate = getTaxRateForTaxNumber(taxNumber)
 
-        return discountedPrice * (1 + taxRate)
+        val totalPrice = discountedPrice * (1 + taxRate)
+
+        return round(totalPrice)
     }
 
     private fun applyCouponDiscount(price: Double, coupon: Coupon): Double {
@@ -45,5 +49,12 @@ class PricingService(
     private fun getTaxRateForTaxNumber(taxNumber: String): Double =
         taxRateRepository.findByRegion(taxNumber.take(2))?.rate
             ?: throw BadRequestException("Invalid tax number: $taxNumber")
+
+    private fun round(value: Double): Double {
+
+        var bd = BigDecimal(value)
+        bd = bd.setScale(2, RoundingMode.HALF_UP)
+        return bd.toDouble()
+    }
 
 }
