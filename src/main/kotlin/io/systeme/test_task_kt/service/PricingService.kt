@@ -50,11 +50,5 @@ class PricingService(
         taxRateRepository.findByRegion(taxNumber.take(2))?.rate
             ?: throw BadRequestException("Invalid tax number: $taxNumber")
 
-    private fun round(value: Double): Double {
-
-        var bd = BigDecimal(value)
-        bd = bd.setScale(2, RoundingMode.HALF_UP)
-        return bd.toDouble()
-    }
-
+    private fun round(value: Double): Double = BigDecimal(value).setScale(2, RoundingMode.HALF_UP).toDouble()
 }
