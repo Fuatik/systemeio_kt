@@ -41,7 +41,7 @@ class PricingService(
         val discount = coupon.discount
         val discountedPrice = if (coupon.isPercentage) price * (1 - discount / 100) else price - discount
 
-        require(discount >= 0) { "Price must be positive" }
+        require(discountedPrice >= 0) { "Price must be positive" }
 
         return discountedPrice
     }

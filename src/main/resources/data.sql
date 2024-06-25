@@ -8,7 +8,7 @@ VALUES (1, 'iPhone', 100),
 INSERT INTO coupon (id, code, discount, is_percentage)
 VALUES (4, 'D15', 15, TRUE),
        (5, 'P10', 10, TRUE),
-       (6, 'F5', 5, FALSE);
+       (6, 'F50', 50, FALSE);
 
 -- Insert taxes
 INSERT INTO tax_rate (id, region, rate)

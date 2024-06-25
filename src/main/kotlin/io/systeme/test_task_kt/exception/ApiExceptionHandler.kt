@@ -16,6 +16,12 @@ import java.net.URI
 @RestControllerAdvice
 class ApiExceptionHandler {
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleIllegalArgumentException(ex: IllegalArgumentException, request: WebRequest): ResponseEntity<ProblemDetail> {
+        return ResponseEntity(createProblemDetail(ex, request), HttpStatus.BAD_REQUEST)
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleMethodArgumentNotValidExceptions(ex: MethodArgumentNotValidException, request: WebRequest): ResponseEntity<ProblemDetail> {
